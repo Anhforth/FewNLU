@@ -96,6 +96,7 @@ class TransformerModelWrapper:
         logger.info(self.config)
 
         tokenizer_class = MODEL_CLASSES[self.config.model_type]['tokenizer']
+
         self.tokenizer = tokenizer_class.from_pretrained(
             self.config.model_name_or_path, cache_dir=self.config.cache_dir if self.config.cache_dir else None)
         """

@@ -1,7 +1,7 @@
 from transformers import AlbertConfig, AlbertTokenizer, AlbertForSequenceClassification, AlbertForMaskedLM, \
     DebertaV2Config, DebertaV2Tokenizer, BertConfig, BertTokenizer, BertForSequenceClassification, BertForMaskedLM, \
     RobertaConfig, RobertaTokenizer, RobertaForSequenceClassification, RobertaForMaskedLM
-
+from transformers import AutoTokenizer, DebertaConfig, DebertaForMaskedLM, DebertaForSequenceClassification
 from modified_hf_models.modeling_deberta_v2 import DebertaV2ForMaskedLM, DebertaV2ForSequenceClassification
 
 # processor
@@ -16,14 +16,13 @@ SET_TYPES = [TRAIN_SET, DEV_SET, TEST_SET, UNLABELED_SET, AUGMENTED_SET]
 # dataset
 DEFAULT_METRICS = ["acc"]
 
-
 # models
 SEQUENCE_CLASSIFIER_WRAPPER = "cls"
 MLM_WRAPPER = "mlm"
 MODEL_CLASSES = {
     'albert': {
         'config': AlbertConfig,
-        'tokenizer': AlbertTokenizer,
+        'tokenizer': AutoTokenizer,
         SEQUENCE_CLASSIFIER_WRAPPER: AlbertForSequenceClassification,
         MLM_WRAPPER: AlbertForMaskedLM,
     },
@@ -32,6 +31,12 @@ MODEL_CLASSES = {
         'tokenizer': DebertaV2Tokenizer,
         MLM_WRAPPER: DebertaV2ForMaskedLM,
         SEQUENCE_CLASSIFIER_WRAPPER: DebertaV2ForSequenceClassification
+    },
+    'debertav1': {
+        'config': DebertaConfig,
+        'tokenizer': BertTokenizer,
+        MLM_WRAPPER: DebertaForMaskedLM,
+        SEQUENCE_CLASSIFIER_WRAPPER: DebertaForSequenceClassification
     },
     'bert': {
         'config': BertConfig,

@@ -5,6 +5,10 @@ from typing import List
 import log as log
 from tasks.superglue.processor import SUPERGLUE_PROCESSORS
 from tasks.superglue.pvp import SUPERGLUE_PVPS, SUPERGLUE_METRICS
+
+from tasks.finance.processor import FINANCE_PROCESSORS
+from tasks.finance.pvp import FINANCE_PVPS, FINANCE_METRICS
+
 from utils import InputExample, eq_div
 from tasks.base_processor import ProcessorOutputPattern
 
@@ -171,5 +175,10 @@ DATASETS={
         "processors": SUPERGLUE_PROCESSORS,
         "pvps": SUPERGLUE_PVPS,
         "metrics": SUPERGLUE_METRICS,
+    },
+    "finance": {
+        "processors": FINANCE_PROCESSORS,
+        "pvps": FINANCE_PVPS,
+        "metrics": FINANCE_METRICS,
     }
 }

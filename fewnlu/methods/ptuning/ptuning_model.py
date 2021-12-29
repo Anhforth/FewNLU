@@ -41,6 +41,8 @@ class ContinuousPromptModel(BaseModel):
             return 128
         elif model_type == "deberta":
             return 1536
+        elif model_type == "debertav1":
+            return 1024
         else:
             NotImplementedError()
 
@@ -89,7 +91,7 @@ class ContinuousPromptModel(BaseModel):
                 raw_embeds[bidx, blocked_indices[bidx, i], :] = replace_embeds[i, :]
 
         inputs = {'inputs_embeds': raw_embeds, 'attention_mask': batch['attention_mask']}
-        if self.config.model_type in ['bert', 'deberta']:
+        if self.config.model_type in ['bert', 'deberta', 'debertav1']:
             inputs['token_type_ids'] = batch['token_type_ids']
 
         return inputs

@@ -3,20 +3,20 @@ device=$2
 model_type=$3
 
 few_shot_setting="dev32_split"
-dataset_name="superglue"
+dataset_name="finance"
 method="ptuning"
 arch_method="default"
-data_dir="/mapping-data/FewNLU/data/FewGLUE_v2/"
+data_dir="/mapping-data/FewNLU/data/Finance/"
 save_dir="/mapping-data/FewNLU/save"/${few_shot_setting}/${model_type}_${task_name}_${arch_method}_${method}_model
 
 
 if [ $model_type = "albert" ]; then
-  model_name_or_path="/mapping-data/FewNLU/model/albert"
+  model_name_or_path="/mapping-data/FewNLU/model/albert_chinese_xxlarge"
   TRAIN_BATCH_SIZE_CANDIDATES="8"
   LR_CANDIDATES="1e-5 2e-5"
 
-elif [ $model_type = "deberta" ]; then
-  model_name_or_path="/mapping-data/FewNLU/model/deberta-v2-xxlarge"
+elif [ $model_type = "debertav1" ]; then
+  model_name_or_path="/mapping-data/FewNLU/model/Deberta-Chinese-Large"
   TRAIN_BATCH_SIZE_CANDIDATES="2"
   LR_CANDIDATES="1e-5"
 fi
@@ -77,18 +77,24 @@ elif [ $TASK = "record" ]; then
   EVAL_BATCH_SIZE=16
   TRAIN_BATCH_SIZE=1
 
+elif [ $TASK = "ed" ]; then
+  DATA_DIR=${DATA_ROOT}ED
+  SEQ_LENGTH=512
+  EVAL_BATCH_SIZE=16
+  TRAIN_BATCH_SIZE=1
+
 else
   echo "Task " $TASK " is not supported by this script."
   exit 1
 fi
 
 
-MAX_STEPS="250 500"
+MAX_STEPS="250"
 WARMUP_RATIO="0.0"
 SAMPLER_SEED="42"
 SEED="42"
 every_eval_ratios="0.02"
-HEAD_TYPES="lstm mlp"
+HEAD_TYPES="mlp"
 cv_k="4"
 
 
@@ -133,7 +139,7 @@ do
               --task_name $task_name \
               --output_dir $OUTPUT_DIR \
               --do_eval \
-              --do_train \
+              --do_train\
               --per_gpu_eval_batch_size $EVAL_BATCH_SIZE \
               --per_gpu_train_batch_size $TRAIN_BATCH_SIZE \
               --gradient_accumulation_steps $ACCU \

@@ -326,7 +326,7 @@ def run(dataprovider, eval_data, wrapper_config, train_eval_config, output_dir=N
 
                 if os.path.exists(pattern_iter_output_dir):
                     logger.warning(f"Path {pattern_iter_output_dir} already exists, skipping it...")
-                    continue
+                    # continue
                 else:
                     os.makedirs(pattern_iter_output_dir)
                 wrapper = TransformerModelWrapper(wrapper_config, pattern_id)
@@ -413,6 +413,17 @@ def run(dataprovider, eval_data, wrapper_config, train_eval_config, output_dir=N
                         train_eval_config.eval_priming,
                         train_eval_config.priming_num, priming_data=train_data) if dev32_data is not None else None
 
+                    # ul32_eval_result = wrapper.evaluate(unlabeled_data,
+                    #     train_eval_config.per_gpu_eval_batch_size,
+                    #     train_eval_config.n_gpu,
+                    #     train_eval_config.device,
+                    #     train_eval_config.metrics,
+                    #     train_eval_config.decoding_strategy,
+                    #     train_eval_config.eval_priming,
+                    #     train_eval_config.priming_num, priming_data=train_data) if unlabeled_data is not None else None
+
+
+
                     save_predictions(os.path.join(pattern_iter_output_dir, 'predictions.jsonl'), wrapper, eval_result)
                     save_logits(os.path.join(pattern_iter_output_dir, 'eval_logits.txt'), eval_result['logits'])
                     scores = eval_result['scores']
@@ -433,6 +444,15 @@ def run(dataprovider, eval_data, wrapper_config, train_eval_config, output_dir=N
                         results_dict["dev32_set_after_training"] = dev32_eval_result["scores"]
                         for metric, value in dev32_eval_result['scores'].items():
                             dev32_results[metric][pattern_id].append(value)
+
+                    # if ul32_eval_result is not None:
+                    #     save_predictions(os.path.join(pattern_iter_output_dir, 'ul32_predictions.jsonl'), wrapper, ul32_eval_result)
+                    #     save_logits(os.path.join(pattern_iter_output_dir, 'ul32_eval_logits.txt'), ul32_eval_result['logits'])
+                    #     logger.info("--- ul32_data RESULT (pattern_id={}, iteration={}) ---".format(pattern_id, iteration))
+                    #     logger.info(ul32_eval_result["scores"])
+                    #     results_dict["ul32_set_after_training"] = ul32_eval_result["scores"]
+                    #     # for metric, value in ul32_eval_result['scores'].items():
+                    #     #     ul32_results[metric][pattern_id].append(value)
 
                     wrapper.model.cpu()
                     wrapper.model = None
@@ -482,12 +502,15 @@ def main():
 
     args = get_args()
     set_seed(args.seed)
+    args.do_train = True
     args = process_args(args)
     processors = DATASETS[args.dataset_name]["processors"]
     if args.task_name not in processors:
         raise ValueError("Task '{}' not found".format(args.task_name))
     processor = processors[args.task_name](args.task_name)
     args.label_list = processor.get_labels()
+
+
 
     logger.info("\n")
     logger.info("Parameters: {}".format(args))
