@@ -1,0 +1,66 @@
+Running with the following parameters:
+------------------------------------
+DATASET_NAME = finance
+TASK_NAME = ed
+METHOD = ptuning
+DEVICE = 0
+MODEL_TYPE = deberta
+MODEL_NAME_OR_PATH = /mapping-data/FewNLU/model/Deberta-Chinese-Large
+DATA_ROOT = /mapping-data/FewNLU/data/Finance/
+SAVE_DIR = /mapping-data/FewNLU/save/dev32_split/deberta_ed_default_ptuning_model
+------------------------------------
+2021-12-19 13:56:15,881 - INFO - cli.py - 
+
+2021-12-19 13:56:15,881 - INFO - cli.py - Parameters: Namespace(adam_epsilon=1e-08, adapet_balance_alpha=-1, adapet_mask_alpha=0.105, alpha=0.9999, arch_method='default', aug_data_dir=None, cache_dir='', cv_k=4, data_dir='/mapping-data/FewNLU/data/Finance/ED', dataset_name='finance', decoding_strategy='default', dev32_examples=-1, dev_examples=-1, device='cuda', do_eval=True, do_train=False, dropout_rate=0.05, early_stop_epoch=6, embedding_learning_rate=0.0001, eval_priming=False, eval_set='dev', every_eval_ratio=0.02, few_shot_setting='dev32_split', fix_deberta=True, generations=1, gradient_accumulation_steps=8, ipet_logits_percentage=0.25, ipet_n_most_likely=-1, ipet_scale_factor=5, label_list=['0', '1', '2'], learning_rate=1e-05, lm_training=False, max_grad_norm=1.0, max_num_lbl_tok=20, max_seq_length=512, max_steps=250, method='ptuning', metrics=['acc'], model_name_or_path='/mapping-data/FewNLU/model/Deberta-Chinese-Large', model_type='deberta', n_gpu=1, no_cuda=False, num_train_epochs=3, output_dir='/mapping-data/FewNLU/save/dev32_split/deberta_ed_default_ptuning_model/512_250_16_2_1e-5__0.02_0.0_mlp_4', overwrite_output_dir=False, pattern_ids=[1], per_gpu_eval_batch_size=16, per_gpu_train_batch_size=2, per_gpu_unlabeled_batch_size=4, priming_num=None, prompt_encoder_head_type='mlp', reduction='mean', relabel_aug_data=False, repetitions=1, sampler_seeds=[42], seed=42, split_examples_evenly=False, split_ratio=0.5, task_name='ed', temperature=2, test_examples=-1, train_examples=-1, train_priming=False, unlabeled_examples=-1, use_brother_fold_logits=False, use_cloze=True, use_continuous_prompt=True, use_dropout=False, verbalizer_file=None, warmup_step_ratio=0.0, weight_decay=0.01)
+2021-12-19 13:56:15,881 - INFO - cli.py - 
+
+2021-12-19 13:56:15,881 - INFO - dataloader.py - Creating features from dataset file at /mapping-data/FewNLU/data/Finance/ED (num_examples=-1, set_type=train)
+2021-12-19 13:56:15,883 - INFO - dataloader.py - Returning 64 train examples with label dist.: [('0', 16), ('1', 26), ('2', 22)]
+2021-12-19 13:56:15,883 - INFO - dataloader.py - Creating features from dataset file at /mapping-data/FewNLU/data/Finance/ED (num_examples=-1, set_type=dev)
+2021-12-19 13:56:15,888 - INFO - dataloader.py - Returning 711 dev examples with label dist.: [('0', 165), ('1', 320), ('2', 226)]
+2021-12-19 13:56:15,888 - INFO - dataloader.py - Creating features from dataset file at /mapping-data/FewNLU/data/Finance/ED (num_examples=-1, set_type=unlabeled)
+2021-12-19 13:56:15,993 - INFO - dataloader.py - Returning 16099 unlabeled examples with label dist.: [('0', 16099)]
+2021-12-19 13:56:15,994 - INFO - cli.py - train_data: 64, eval_data: 711
+2021-12-19 13:56:15,994 - INFO - cli.py - 32
+2021-12-19 13:56:15,994 - INFO - cli.py - 32
+2021-12-19 13:56:15,994 - INFO - cli.py - 64
+2021-12-19 13:56:15,996 - INFO - cli.py - train/dev data number:
+2021-12-19 13:56:15,996 - INFO - cli.py - 32
+2021-12-19 13:56:15,996 - INFO - cli.py - 32
+2021-12-19 13:56:15,996 - WARNING - cli.py - Path /mapping-data/FewNLU/save/dev32_split/deberta_ed_default_ptuning_model/512_250_16_2_1e-5__0.02_0.0_mlp_4/p1/f0-i0 already exists, skipping it...
+2021-12-19 13:56:15,996 - INFO - wrapper.py - WrapperConfig: 
+2021-12-19 13:56:15,996 - INFO - wrapper.py - {'seed': 42, 'model_type': 'deberta', 'model_name_or_path': '/mapping-data/FewNLU/model/Deberta-Chinese-Large', 'cache_dir': '', 'dataset_name': 'finance', 'task_name': 'ed', 'max_seq_length': 512, 'label_list': ['0', '1', '2'], 'verbalizer_file': None, 'method': 'ptuning', 'arch_method': 'default', 'use_continuous_prompt': True, 'prompt_encoder_head_type': 'mlp', 'fix_deberta': True, 'use_cloze': True, 'dropout_rate': 0.05, 'output_dir': '/mapping-data/FewNLU/save/dev32_split/deberta_ed_default_ptuning_model/512_250_16_2_1e-5__0.02_0.0_mlp_4', 'device': 'cuda', 'pattern_id': 1, 'wrapper_type': 'mlm'}
+2021-12-19 13:56:16,089 - INFO - wrapper.py - Tokenizer Loaded.
+2021-12-19 13:56:27,111 - INFO - base_model.py -  Base pretrained model Loaded.
+2021-12-19 13:56:32,328 - INFO - cli.py - Starting evaluation...
+2021-12-19 13:56:32,328 - INFO - cli.py - restoring checkpoint from /mapping-data/FewNLU/save/dev32_split/deberta_ed_default_ptuning_model/512_250_16_2_1e-5__0.02_0.0_mlp_4/p1/f0-i0
+2021-12-19 13:56:42,385 - INFO - base_model.py -  Base pretrained model Loaded.
+Traceback (most recent call last):
+  File "fewnlu/cli.py", line 610, in <module>
+    main()
+  File "fewnlu/cli.py", line 541, in main
+    results=iterative_run(dataprovider, eval_data, wrapper_config, train_eval_config, unlabeled_data, aug_data, output_dir=args.output_dir)
+  File "fewnlu/cli.py", line 248, in iterative_run
+    results=run(dataprovider, eval_data, wrapper_config, train_eval_config, output_dir, unlabeled_data, aug_data, save_unlabeled_logits=False)
+  File "fewnlu/cli.py", line 395, in run
+    wrapper = TransformerModelWrapper.from_pretrained(pattern_iter_output_dir)
+  File "/home/projects/FewNLU-main/fewnlu/wrapper.py", line 138, in from_pretrained
+    wrapper.model.model = model_class.from_pretrained(path)
+  File "/home/env/ENTER/lib/python3.8/site-packages/transformers/modeling_utils.py", line 1059, in from_pretrained
+    model = cls(config, *model_args, **model_kwargs)
+  File "/home/env/ENTER/lib/python3.8/site-packages/transformers/models/deberta/modeling_deberta.py", line 990, in __init__
+    self.init_weights()
+  File "/home/env/ENTER/lib/python3.8/site-packages/transformers/modeling_utils.py", line 752, in init_weights
+    self.apply(self._init_weights)
+  File "/home/env/ENTER/lib/python3.8/site-packages/torch/nn/modules/module.py", line 659, in apply
+    module.apply(fn)
+  File "/home/env/ENTER/lib/python3.8/site-packages/torch/nn/modules/module.py", line 659, in apply
+    module.apply(fn)
+  File "/home/env/ENTER/lib/python3.8/site-packages/torch/nn/modules/module.py", line 659, in apply
+    module.apply(fn)
+  [Previous line repeated 3 more times]
+  File "/home/env/ENTER/lib/python3.8/site-packages/torch/nn/modules/module.py", line 660, in apply
+    fn(self)
+  File "/home/env/ENTER/lib/python3.8/site-packages/transformers/models/deberta/modeling_deberta.py", line 774, in _init_weights
+    module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
+KeyboardInterrupt

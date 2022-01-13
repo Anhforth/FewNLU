@@ -73,6 +73,8 @@ class MLMPreprocessor(Preprocessor):
         assert len(token_type_ids) == self.max_seq_len
         assert len(block_flags) == self.max_seq_len
         # print(self.label_map, example.label,1111)
+        if example.label == "22":
+            example.label = "2"
         label_id = self.label_map[example.label] if example.label is not None else -100
         logits = example.logits if example.logits else [-1]
 

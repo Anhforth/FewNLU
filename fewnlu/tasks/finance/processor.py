@@ -95,8 +95,6 @@ class EDProcessor(FinanceDataProcessor):
                 if isinstance(idx, str):
                     idx = int(idx)
                 label = str(example_json.get('label'))
-                if str(label) not in self.get_labels():
-                    label = "2"
                 # label = "T" if example_json.get('label') else "F"
                 guid = "%s-%s" % (set_type, idx)
                 text_a = example_json['text']

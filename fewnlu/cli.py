@@ -204,14 +204,20 @@ class DataProvider(object):
                 cur_dev32_data = all_data[number:]
             else:
                 cur_all_data = copy.deepcopy(self.cur_all_data)
+
                 rng.shuffle(cur_all_data)
                 all_num = len(cur_all_data)
 
                 number = int(all_num * self.split_ratio)
+                print(len(cur_all_data),number,"测试")
                 cur_train_data_set = [data_list for (guid, data_list) in cur_all_data[:number]]
                 cur_dev32_data_set = [data_list for (guid, data_list) in cur_all_data[number:]]
+                print(len(cur_train_data_set), len(cur_dev32_data_set), "测试1")
                 cur_train_data = list(itertools.chain.from_iterable(cur_train_data_set))
                 cur_dev32_data = list(itertools.chain.from_iterable(cur_dev32_data_set))
+                print(len(cur_train_data), len(cur_dev32_data), "测试2")
+                print(cur_train_data[0])
+                print(cur_train_data_set[0])
             if self.task_name == 'wsc':
                 use_cloze=True if self.method != 'sequence_classifier' else False
                 cur_train_data=self.wsc_sample(cur_train_data,use_cloze,rng)
@@ -319,6 +325,7 @@ def run(dataprovider, eval_data, wrapper_config, train_eval_config, output_dir=N
     for pattern_id in pattern_ids:
         for fold in range(folds):
             train_data,dev32_data=dataprovider.get_splited_data(fold_id=fold)
+            print(len(train_data), len(dev32_data),"当前数据大小")
             for iteration in range(repetitions):
                 results_dict = {}
                 pattern_iter_output_dir = "{}/p{}/f{}-i{}".format(output_dir, pattern_id, fold, iteration)
@@ -510,6 +517,14 @@ def main():
     processor = processors[args.task_name](args.task_name)
     args.label_list = processor.get_labels()
 
+    # def print_args(args):
+    #     """Print arguments."""
+    #
+    #     print('arguments:', flush=True)
+    #     for arg in vars(args):
+    #         dots = '.' * (29 - len(arg))
+    #         print('  {} {} {}'.format(arg, dots, getattr(args, arg)), flush=True)
+    # print_args(args)
 
 
     logger.info("\n")
